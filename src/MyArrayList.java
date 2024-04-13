@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class MyArrayList<T> implements MyList<T> {
+public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
 
 
     private static Object[] arr;
@@ -28,6 +28,12 @@ public class MyArrayList<T> implements MyList<T> {
 
     }
 
+    private void checkCapacity(int index){
+        if (index< 0 || index>= length){
+            throw new IndexOutOfBoundsException(index);
+        }
+    }
+
     @Override
     public void add(T item) {
         if(length== arr.length){
@@ -46,12 +52,14 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void set(int index, T item) {
+        checkCapacity(index);
         arr[index] = item;
 
     }
 
     @Override
     public void add(int index, T item) {
+        checkCapacity(index);
         if(length == arr.length){
             increaseCapacity();
         }
@@ -85,6 +93,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public T get(int index) {
+        checkCapacity(index);
         return (T) arr[index];
     }
 
@@ -100,6 +109,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void remove(int index) {
+        checkCapacity(index);
         Object[]temp = new Object[length-1];
         for (int i = 0 ; i < index; i++){
             temp[i] = arr[i];
@@ -127,9 +137,9 @@ public class MyArrayList<T> implements MyList<T> {
     public void sort() {
         for (int i = 0; i < length; i++) {
             for (int j = i + 1; j < length; j++) {
-                if ((int) arr[j] > (int) arr[j + 1]) {
-                    Object temp = arr[i];
-                    arr[i] = arr[j];
+                if (((Comparable)arr[j]).compareTo(arr[j+1])>0) {
+                    Object temp = arr[j+1];
+                    arr[j+1] = arr[j];
                     arr[j] = temp;
                 }
             }
@@ -184,6 +194,19 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MYIterator();
+    }
+
+    public class MYIterator implements Iterator<T>{
+        private int index = 0;
+        @Override
+        public boolean hasNext() {
+            return index<length;
+        }
+
+        @Override
+        public T next() {
+            return (T) arr[index++];
+        }
     }
 }
