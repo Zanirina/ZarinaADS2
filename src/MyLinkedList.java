@@ -1,48 +1,49 @@
 import java.util.Iterator;
 
-public class MyLinkedList<T> implements MyList<T>{
+public class MyLinkedList<T> implements MyList<T> {
 
-    class MyNode<E>{
+    class MyNode<E> {
         E element;
         MyNode next;
         MyNode prev;
 
-        public MyNode(){
+        public MyNode() {
             element = null;
             next = null;
-            prev=null;
+            prev = null;
         }
-        public MyNode(E element){
+
+        public MyNode(E element) {
             this.element = element;
             next = null;
-            prev=null;
+            prev = null;
         }
     }
 
     private MyNode head;
     private MyNode tail;
     private int size;
-    public MyLinkedList(){
+
+    public MyLinkedList() {
         head = null;
         tail = null;
-        size  =0;
-    }
-    private void checkCapacity(int index){
-        if (index< 0 || index>= size){
-            throw new IndexOutOfBoundsException("Index: "+ index+ ", Size:"+ size);
-        }
+        size = 0;
     }
 
+    private void checkCapacity(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size:" + size);
+        }
+    }
 
 
     @Override
     public void add(T item) {
         MyNode newNode = new MyNode(item);
-        if(head == null){
+        if (head == null) {
             head = newNode;
             tail = newNode;
-        }
-        else {
+        } else {
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
@@ -55,9 +56,7 @@ public class MyLinkedList<T> implements MyList<T>{
     public void set(int index, T item) {
         checkCapacity(index);
         MyNode current = head;
-
-
-        for(int i = 0; i<=index; i++){
+        for (int i = 0; i < index; i++) {
             current = current.next;
         }
         current.element = item;
@@ -66,12 +65,34 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void add(int index, T item) {
-
+        checkCapacity(index);
+        MyNode newNode = new MyNode(item);
+        if (index == 0){
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+        }
+        else if(index == size){
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+        else {
+            MyNode current = head;
+            for(int i = 0; i<index-1; i++){
+                current = current.next;
+            }
+            newNode.next = current.next;
+            newNode.prev = current;
+            current.next.prev = newNode;
+            current.next = newNode;
+        }
+        size++;
     }
 
     @Override
     public void addFirst(T item) {
-
+        add(0, item);
     }
 
     @Override
@@ -81,7 +102,12 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T get(int index) {
-        return null;
+        checkCapacity();
+        MyNode current = head;
+        for (int i = 0; i<index; i++){
+            current = current.next;
+        }
+        return (T) current.element;
     }
 
     @Override
@@ -91,12 +117,29 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T getLast() {
-        return get(size-1);
+        return (T) tail.element;
     }
 
     @Override
     public void remove(int index) {
-        remove(index);
+        checkCapacity((index));
+        if(index == 0){
+            head = head.prev;
+            head.prev = null;
+        }
+        else if(index == size-1){
+            tail = tail.prev;
+            tail.next = null;
+        }
+        else {
+            MyNode current = head;
+            for(int i =0; i< index; i++){
+                current.prev.next =current.next;
+                current.next.prev =current.prev;
+            }
+        }
+        size;
+        }
     }
 
     @Override
@@ -113,6 +156,15 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void sort() {
+        for (MyNode i = head; i != null; i = i.next) {
+            for (MyNode j = i.next; j != null; j = j.next) {
+                if (((Comparable)j.element).compareTo(i.element) < 0) {
+                    Object current = i.element;
+                    i.element = j.element;
+                    j.element = current;
+                }
+            }
+        }
 
     }
 
