@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
+public class MyArrayList<T extends Comparable<T>> implements MyList<T> {
 
 
     private static Object[] arr;
@@ -28,20 +28,20 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
 
     }
 
-    private void checkCapacity(int index){
-        if (index< 0 || index>= length){
+    private void checkCapacity(int index) {
+        if (index < 0 || index >= length) {
             throw new IndexOutOfBoundsException(index);
         }
     }
 
     @Override
     public void add(T item) {
-        if(length== arr.length){
+        if (length == arr.length) {
             increaseCapacity();
         }
 
         Object[] temp = new Object[length + 1];
-        for (int i = 0; i<length; i++){
+        for (int i = 0; i < length; i++) {
             temp[i] = arr[i];
         }
         temp[length] = item;
@@ -60,19 +60,19 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
     @Override
     public void add(int index, T item) {
         checkCapacity(index);
-        if(length == arr.length){
+        if (length == arr.length) {
             increaseCapacity();
         }
 
-        Object[] temp = new Object[length+1];
-        for(int i = 0; i<index;i++){
+        Object[] temp = new Object[length + 1];
+        for (int i = 0; i < index; i++) {
             temp[i] = arr[i];
         }
 
 
         temp[index] = item;
-        for(int i = index+1; i<length+1; i++){
-            temp[i] = arr[i-1];
+        for (int i = index + 1; i < length + 1; i++) {
+            temp[i] = arr[i - 1];
         }
         length++;
         arr = temp;
@@ -81,7 +81,7 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
 
     @Override
     public void addFirst(T item) {
-        add(0,item);
+        add(0, item);
 
     }
 
@@ -110,13 +110,13 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
     @Override
     public void remove(int index) {
         checkCapacity(index);
-        Object[]temp = new Object[length-1];
-        for (int i = 0 ; i < index; i++){
+        Object[] temp = new Object[length - 1];
+        for (int i = 0; i < index; i++) {
             temp[i] = arr[i];
 
         }
-        for (int i = index; i<length-1; i++){
-            temp[i] = arr[i+1];
+        for (int i = index; i < length - 1; i++) {
+            temp[i] = arr[i + 1];
         }
         length--;
         arr = temp;
@@ -130,13 +130,13 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
 
     @Override
     public void removeLast() {
-        remove(length-1);
+        remove(length - 1);
     }
 
     @Override
     public void sort() {
         for (int i = 0; i < length; i++) {
-            for (int j = i + 1; j < length-1-i; j++)
+            for (int j = i + 1; j < length - 1 - i; j++)
                 if (((Comparable) arr[j]).compareTo(arr[j + 1]) > 0) {
                     Object temp = arr[j + 1];
                     arr[j + 1] = arr[j];
@@ -196,11 +196,12 @@ public class MyArrayList<T extends Comparable<T>>  implements MyList<T> {
         return new MYIterator();
     }
 
-    public class MYIterator implements Iterator<T>{
+    public class MYIterator implements Iterator<T> {
         private int index = 0;
+
         @Override
         public boolean hasNext() {
-            return index<length;
+            return index < length;
         }
 
         @Override

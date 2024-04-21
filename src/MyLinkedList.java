@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<T> implements MyList<T> {
 
@@ -67,19 +68,17 @@ public class MyLinkedList<T> implements MyList<T> {
     public void add(int index, T item) {
         checkCapacity(index);
         MyNode newNode = new MyNode(item);
-        if (index == 0){
+        if (index == 0) {
             newNode.next = head;
             head.prev = newNode;
             head = newNode;
-        }
-        else if(index == size){
+        } else if (index == size) {
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
-        }
-        else {
+        } else {
             MyNode current = head;
-            for(int i = 0; i<index-1; i++){
+            for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
             newNode.next = current.next;
@@ -102,9 +101,9 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public T get(int index) {
-        checkCapacity();
+        checkCapacity(index);
         MyNode current = head;
-        for (int i = 0; i<index; i++){
+        for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return (T) current.element;
@@ -123,42 +122,38 @@ public class MyLinkedList<T> implements MyList<T> {
     @Override
     public void remove(int index) {
         checkCapacity((index));
-        if(index == 0){
+        if (index == 0) {
             head = head.prev;
             head.prev = null;
-        }
-        else if(index == size-1){
+        } else if (index == size - 1) {
             tail = tail.prev;
             tail.next = null;
-        }
-        else {
+        } else {
             MyNode current = head;
-            for(int i =0; i< index; i++){
-                current.prev.next =current.next;
-                current.next.prev =current.prev;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
             }
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
         }
-        size;
-        }
+        size--;
     }
 
     @Override
     public void removeFirst() {
         remove(0);
-        size--;
     }
 
     @Override
     public void removeLast() {
         remove(size - 1);
-        size--;
     }
 
     @Override
     public void sort() {
         for (MyNode i = head; i != null; i = i.next) {
             for (MyNode j = i.next; j != null; j = j.next) {
-                if (((Comparable)j.element).compareTo(i.element) < 0) {
+                if (((Comparable) j.element).compareTo(i.element) < 0) {
                     Object current = i.element;
                     i.element = j.element;
                     j.element = current;
@@ -170,26 +165,51 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public int indexOf(Object object) {
-        return 0;
+        MyNode current = head;
+
+        for (int i = 0; i < size; i++) {
+            if (current.element.equals(object)) {
+                return i;
+            }
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        return 0;
+        MyNode current = tail;
+        for (int i = size - 1; i >= 0; i--) {
+            if (current.element.equals(object)) {
+                return i;
+            }
+            current = current.prev;
+        }
+        return -1;
+
     }
 
     @Override
     public boolean exists(Object object) {
-        return false;
+        return indexOf(object) != -1;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size];
+        MyNode current = head;
+        for (int i = 0; i < size; i++) {
+            arr[i] = current.element;
+            current = current.next;
+        }
+        return arr;
     }
 
     @Override
     public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
 
     }
 
@@ -200,6 +220,28 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MyIterator();
     }
+
+    public class MyIterator implements Iterator<T> {
+        private MyNode current = head;
+        private int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            if (hasNext() != true) {
+                throw new NoSuchElementException();
+            }
+            T element = (T) current.element;
+            current = current.next;
+            index++;
+            return element;
+        }
+    }
+
 }
