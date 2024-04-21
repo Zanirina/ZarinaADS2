@@ -6,7 +6,7 @@ public class MyStack<T> {
 
     }
 
-    public T top() {
+    public T peek() {
         return (T) stack.getLast();
     }
 
@@ -20,16 +20,12 @@ public class MyStack<T> {
         stack.addLast(item);
     }
 
-    public boolean isEmpty() {
+    public boolean empty() {
         return stack.size() == 0;
     }
 
-    public int size() {
+    public int Size() {
         return stack.size();
-    }
-
-    public void clear() {
-        stack.clear();
     }
 
 }

@@ -5,12 +5,8 @@ public class MyQueue<T extends Comparable<T>> {
 
     }
 
-    public T front() {
+    public T peek() {
         return queue.get(0);
-    }
-
-    public T back() {
-        return queue.get(queue.size() - 1);
     }
 
     public T dequeue() {
@@ -23,17 +19,14 @@ public class MyQueue<T extends Comparable<T>> {
         queue.add(item);
     }
 
-    public boolean isEmpty() {
+    public boolean empty() {
         return queue.size() == 0;
     }
 
-    public int size() {
+    public int Size() {
         return queue.size();
     }
 
-    public void clear() {
-        queue.clear();
-    }
 
 
 }
