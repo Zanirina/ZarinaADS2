@@ -38,7 +38,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
 
-    @Override
+    @Override     // Add an element to the end of the linked list
     public void add(T item) {
         MyNode newNode = new MyNode(item);
         if (head == null) {
@@ -54,7 +54,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public void set(int index, T item) {
+    public void set(int index, T item) {    // Set an element at a specific index
         checkCapacity(index);
         MyNode current = head;
         for (int i = 0; i < index; i++) {
@@ -65,7 +65,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public void add(int index, T item) {
+    public void add(int index, T item) {    // Add an element at a specific index
         checkCapacity(index);
         MyNode newNode = new MyNode(item);
         if (index == 0) {
@@ -90,17 +90,17 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public void addFirst(T item) {
+    public void addFirst(T item) {    // Add an element at the beginning of the linked list
         add(0, item);
     }
 
     @Override
-    public void addLast(T item) {
+    public void addLast(T item) {    // Add an element at the end of the linked list
         add(item);
     }
 
     @Override
-    public T get(int index) {
+    public T get(int index) {    // Get an element at a specific index
         checkCapacity(index);
         MyNode current = head;
         for (int i = 0; i < index; i++) {
@@ -110,17 +110,17 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public T getFirst() {
+    public T getFirst() {    // Get the first element of the linked list
         return (T) head.element;
     }
 
     @Override
-    public T getLast() {
+    public T getLast() {     // Get the last element of the linked list
         return (T) tail.element;
     }
 
     @Override
-    public void remove(int index) {
+    public void remove(int index) {    // Remove an element at a specific index
         checkCapacity((index));
         if (index == 0) {
             head = head.prev;
@@ -140,17 +140,17 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public void removeFirst() {
+    public void removeFirst() {       // Remove the first element of the linked list
         remove(0);
     }
 
     @Override
-    public void removeLast() {
+    public void removeLast() {    // Remove the last element of the linked list
         remove(size - 1);
     }
 
     @Override
-    public void sort() {
+    public void sort() {    // Sort the linked list using bubble sort
         for (MyNode i = head; i != null; i = i.next) {
             for (MyNode j = i.next; j != null; j = j.next) {
                 if (((Comparable) j.element).compareTo(i.element) < 0) {
@@ -164,7 +164,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public int indexOf(Object object) {
+    public int indexOf(Object object) {    // Find the index of the first occurrence of an object
         MyNode current = head;
 
         for (int i = 0; i < size; i++) {
@@ -177,7 +177,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public int lastIndexOf(Object object) {
+    public int lastIndexOf(Object object) {    // Find the index of the last occurrence of an object
         MyNode current = tail;
         for (int i = size - 1; i >= 0; i--) {
             if (current.element.equals(object)) {
@@ -190,12 +190,12 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public boolean exists(Object object) {
+    public boolean exists(Object object) {    // Check if an object exists in the linked list
         return indexOf(object) != -1;
     }
 
     @Override
-    public Object[] toArray() {
+    public Object[] toArray() {     // Convert the linked list to an Object array
         Object[] arr = new Object[size];
         MyNode current = head;
         for (int i = 0; i < size; i++) {
@@ -206,7 +206,7 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public void clear() {
+    public void clear() {    // Clear the linked list
         head = null;
         tail = null;
         size = 0;
@@ -214,26 +214,26 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     @Override
-    public int size() {
+    public int size() {    // Get the current size of the linked list
         return size;
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<T> iterator() {// Return an iterator for the linked list
         return new MyIterator();
     }
 
-    public class MyIterator implements Iterator<T> {
+    public class MyIterator implements Iterator<T> {        // Inner class for iterator implementation
         private MyNode current = head;
         private int index = 0;
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext() {        // Check if there is a next element
             return index < size;
         }
 
         @Override
-        public T next() {
+        public T next() {        // Get the next element
             if (hasNext() != true) {
                 throw new NoSuchElementException();
             }

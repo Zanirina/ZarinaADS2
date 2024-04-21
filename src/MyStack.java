@@ -6,25 +6,25 @@ public class MyStack<T> {
 
     }
 
-    public T peek() {
+    public T peek() {    // Return the top element of the stack without removing it
         return (T) stack.getLast();
     }
 
-    public T pop() {
+    public T pop() {    // Remove and return the top element of the stack
         T item = stack.getLast();
         stack.removeLast();
         return item;
     }
 
-    public void push(T item) {
+    public void push(T item) {    // Add an element to the top of the stack
         stack.addLast(item);
     }
 
-    public boolean empty() {
+    public boolean empty() {    // Check if the stack is empty
         return stack.size() == 0;
     }
 
-    public int Size() {
+    public int Size() {    // Get the current size of the stack
         return stack.size();
     }
 
