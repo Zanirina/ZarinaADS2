@@ -33,10 +33,10 @@ public class MyHeap<T extends Comparable<T>> {
         int right = rightChildOf(i);
         int theLargest = i;
 
-        if (left < heap.size() && heap.get(left).compareTo(heap.get(theLargest)) < 0) {
+        if (left < heap.size() && heap.get(left).compareTo(heap.get(theLargest)) > 0) {
             theLargest = left;
         }
-        if (right < heap.size() && heap.get(right).compareTo(heap.get(theLargest)) < 0) {
+        if (right < heap.size() && heap.get(right).compareTo(heap.get(theLargest)) > 0) {
             theLargest = right;
         }
         if (theLargest != i) {
@@ -53,19 +53,20 @@ public class MyHeap<T extends Comparable<T>> {
     }
 
     private int leftChildOf(int i) {    // Calculate the index of the left child of node at index i
-        return 2 * i;
+        return (2 * i)+1;
     }
 
     private int rightChildOf(int i) {    // Calculate the index of the right child of node at index i
-        return 2 * i + 1;
+        return (2 * i) + 2;
     }
 
     private int parentOf(int i) {    // Calculate the index of the parent of node at index i
-        return i / 2;
+        return (i-1) / 2;
     }
 
     private void swap(int i, int j) {    // Swap two elements in the heap
         T temp = heap.get(i);
+        heap.set(i,heap.get(j));
         heap.set(j, temp);
     }
 
